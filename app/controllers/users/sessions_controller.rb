@@ -4,6 +4,15 @@ class Users::SessionsController < Devise::SessionsController
   respond_to :json
 
 
+  def destroy 
+    if resource.current_cart
+      resoruce.current_cart.update(active: false)
+    end
+
+    super
+  end
+
+
   private
 
   def respond_with(resource, _opts = {})

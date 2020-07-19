@@ -18,12 +18,15 @@ class ApplicationController < ActionController::API
     end
   end
 
+
+
   def set_cart
-    @cart = Cart.find(session[:cart_id])
-  rescue ActiveRecord::RecordNotFound
-    if user_signed_in?
-      cart_params = { user: @current_user }
-      @cart = Cart.create(cart_params)
+    if user_signed_in? 
+      if current_user.current_cart
+        @cart =  current_user.current_cart
+      else
+        @cart = current_user.carts.create(active: true)
+      end
     end
   end
 end

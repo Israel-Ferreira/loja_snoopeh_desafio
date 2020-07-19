@@ -17,5 +17,7 @@ Rails.application.routes.draw do
   namespace :snoopeh_store do
     resources :categories
     resources :products
+    resources :carts, only: %i[create show index]
+    resources :cart_items, only: %i[create destroy]
   end
 end
