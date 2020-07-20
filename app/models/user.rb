@@ -7,6 +7,7 @@ class User < ApplicationRecord
          :jwt_authenticatable, jwt_revocation_strategy: self
 
   has_many :carts
+  has_many :credit_cards
 
 
   def current_cart

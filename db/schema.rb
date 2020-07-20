@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_18_192921) do
+ActiveRecord::Schema.define(version: 2020_07_19_232901) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,17 @@ ActiveRecord::Schema.define(version: 2020_07_18_192921) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "credit_cards", force: :cascade do |t|
+    t.string "card_number", null: false
+    t.string "card_holder_name", null: false
+    t.string "exp_date", null: false
+    t.string "cvv", null: false
+    t.bigint "txn_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["txn_id"], name: "index_credit_cards_on_txn_id"
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "title", null: false
     t.integer "price", null: false
@@ -49,6 +60,15 @@ ActiveRecord::Schema.define(version: 2020_07_18_192921) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["category_id"], name: "index_products_on_category_id"
+  end
+
+  create_table "txns", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "cart_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["cart_id"], name: "index_txns_on_cart_id"
+    t.index ["user_id"], name: "index_txns_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -69,5 +89,8 @@ ActiveRecord::Schema.define(version: 2020_07_18_192921) do
   add_foreign_key "cart_items", "carts"
   add_foreign_key "cart_items", "products"
   add_foreign_key "carts", "users"
+  add_foreign_key "credit_cards", "txns"
   add_foreign_key "products", "categories"
+  add_foreign_key "txns", "carts"
+  add_foreign_key "txns", "users"
 end
