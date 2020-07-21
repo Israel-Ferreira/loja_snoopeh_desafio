@@ -3,7 +3,7 @@
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
     origins '*'
-    resource '/snoopeh_store/*',
+    resource '*',
              headers: %w[Authorization],
              methods: :any,
              expose: %w[Authorization],
